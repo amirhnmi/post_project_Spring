@@ -1,11 +1,16 @@
 package com.example.postprojectspring.module.users.entity;
 
+import com.example.postprojectspring.module.posts.entity.Posts;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +28,9 @@ public class Users {
     @Column(nullable = true)
     private String cover;
 
+    @OneToMany(mappedBy = "users")
+    private List<Posts> posts;
+
     @Column(name = "created_at", nullable = true)
     private LocalDateTime createdAt;
 
@@ -32,6 +40,7 @@ public class Users {
     public Users() {
 
     }
+
 
     public Users(String email, String password, String name, String cover) {
         this.email = email;
@@ -46,6 +55,14 @@ public class Users {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -70,6 +87,14 @@ public class Users {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public List<Posts> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Posts> posts) {
+        this.posts = posts;
     }
 
     public LocalDateTime getCreatedAt() {
